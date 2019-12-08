@@ -11,58 +11,78 @@ Created on Sun Nov 24 08:17:58 2019
 @author: Andrei Shtanakov
 """
 
-
-print("Выход из цикла при вводе 'q' вместо числа Y или вместо оператора")
-x = input("Введите число X: ")
-
-# Проверка на правильность ввода числа X
-try:
-    x = float(x)
-except ValueError:
-    print("Неверное значение X!")
-    print("X присвоено значение 0")
-    x = 0
-
-y = 1
-while y != "q":
-    y = input("Введите число Y: ")
-    oper = 0
-    if y == "q":
-        continue
-    else:
-
-        # Проверка на правильность ввода числа Y
-        try:
-            y = float(y)
-#        y = float(y)
-        except ValueError:
-            y = 0
-            oper = "+"
-            print("Неверное значение Y!")
-            continue
-
-        while oper == 0:
-            oper = input("Введите оператор: ")
-            if oper == "+":
-                print ("X = X + Y = ", x, " + ", y, " = ", x + y)
-                x += y
-            elif oper == "-":
-                print ("X = X - Y = ", x, " - ", y, " = ", x - y)
-                x -=y
-            elif oper == "*":
-                print ("X = X * Y = ", x, " * ", y, " = ", x * y)
-                x *= y
-            elif oper == "/":
-                try:
-                    print ("X = X - Y = ", x, " / ", y, " = ",  x / y)
-                except ZeroDivisionError:
-                    print ("На 0 делить нельзя!")
-            elif oper == "q":
-                y = "q"
-            else:
-                print("Неверный оператор!")
-                oper = 0
-            
-            
+class trivial_calculator(object):
+    def __init__(self):
+        """Constructor"""
+        self.x = 0
+        self.y = 0
+        self.res = 0
+        self.operator = ""
+        self.cicl = True
         
+    def inspection(self, x):
+        try:
+            x = float(x)
+            return True
+        except ValueError:
+            print("Неверное значение!")
+            return False
     
+    def inspectoper(self, op):
+        if op in ['-','+','/','*','q']:
+            return True
+        else:
+            return False
+        
+        
+    def operators(self, oper):
+        if oper == "+":
+            self.res = self.x + self.y
+            print ("X = X + Y = ", self.x, " + ", self.y, " = ", self.res)
+            self.x = self.res
+        elif oper == "-":
+            self.res = self.x - self.y
+            print ("X = X - Y = ", self.x, " - ", self.y, " = ", self.res)
+            self.x = self.res
+        elif oper == "*":
+            self.res = self.x * self.y
+            print ("X = X * Y = ", self.x, " * ", self.y, " = ", self.res)
+            self.x = self.res
+        elif oper == "/":
+            try:
+                self.res = self.x / self.y
+                print ("X = X / Y = ", self.x, " / ", self.y, " = ", self.res)
+                self.x = self.res
+            except ZeroDivisionError:
+                print ("На 0 делить нельзя!")
+        elif oper == "q":
+            self.cicl = False
+        else:
+            pass
+
+        
+    def calc(self):
+        print("Выход из цикла при вводе 'q' вместо оператора")
+        while self.cicl:
+            x = 0
+            op = ""
+            flag = False
+            while flag == False:
+                x = input("Введите число X: ")
+                flag = self.inspection(x)
+            self.x = float(x)
+            flag = False
+            while flag == False:
+                x = input("Введите число Y: ")
+                flag = self.inspection(x)
+            self.y = float(x)
+            flag = False
+            while flag == False:
+                op = input("Введите оператор: ")
+                flag = self.inspectoper(op)
+#            self.operator = op
+            self.operators(op) 
+
+my_calc = trivial_calculator()
+
+my_calc.calc()
